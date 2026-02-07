@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PRANK 💘</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+
+  .box {
+    background: rgba(255,255,255,0.15);
+    padding: 30px;
+    border-radius: 15px;
+    width: 340px;
+    position: relative;
+  }
+
+  input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .yes {
+    background: #2ecc71;
+    color: white;
+  }
+
+  .no {
+    background: #ff4d6d;
+    color: white;
+    position: absolute;
+  }
+
+  a {
+    color: white;
+    word-break: break-all;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="box" id="app"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const boy = params.get("boy");
+const girl = params.get("girl");
+const step = params.get("step");
+
+// PAGE 1 – GENERATE LINK
+if (!boy && !girl) {
+  document.getElementById("app").innerHTML = `
+    <h2>💖 Valentine Generator 💖</h2>
+    <input id="boy" placeholder="Boy Name">
+    <input id="girl" placeholder="Girl Name">
+    <br><br>
+    <button onclick="generate()">Generate Link</button>
+    <p id="link"></p>
+  `;
+}
+
+function generate() {
+  const b = document.getElementById("boy").value.trim();
+  const g = document.getElementById("girl").value.trim();
+  if (!b || !g) {
+    alert("Enter both names ❤️");
+    return;
+  }
+  const link = `${location.pathname}?boy=${encodeURIComponent(b)}&girl=${encodeURIComponent(g)}&step=proposal`;
+  document.getElementById("link").innerHTML =
+    `Share this link 💌<br><a href="${link}" target="_blank">${location.origin + link}</a>`;
+}
+
+// PAGE 2 – PROPOSAL PAGE
+if (step === "proposal") {
+  document.getElementById("app").innerHTML = `
+    <h2>${girl} 💖</h2>
+    <h3>BAYATAKI VELDHAM ${boy}'s VASTHAVA??? 💍</h3>
+    <br><br>
+    <button class="yes" onclick="yesClick()">YES 💕</button>
+    <button class="no" id="noBtn">NO 😜</button>
+  `;
+
+  const noBtn = document.getElementById("noBtn");
+  moveNoButton();
+
+  noBtn.addEventListener("mouseover", moveNoButton);
+
+  function moveNoButton() {
+    const x = Math.random() * 220;
+    const y = Math.random() * 200;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+}
+
+// PAGE 3 – THANK YOU PAGE
+function yesClick() {
+  window.location.href =
+    `${location.pathname}?boy=${boy}&girl=${girl}&step=thanks`;
+}
+
+if (step === "thanks") {
+  document.getElementById("app").innerHTML = `
+    <h1>💖 LOVE YOU ${girl}! 💖</h1>
+    <h2>${boy} is the luckiest person alive 💕</h2>
+    <p>
+      Your YES made this Day unforgettable.<br>
+      May your love grow stronger every single day 🌹
+    </p>
+    <h3>LOVE YOU SOO MUCH BANGAARAM ❤️</h3>
+  `;
+}
+</script>
+
+</body>
+</html>
